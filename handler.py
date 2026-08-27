@@ -29,6 +29,14 @@ IP_ADAPTER_WEIGHT = os.getenv(
     "ip-adapter-plus-face_sdxl_vit-h.safetensors"
 )
 
+# Encoder ViT-H correto para os pesos SDXL do IP-Adapter.
+# A pasta padrão "image_encoder" contém o ViT-L (SD 1.5) e causa o erro
+# "mat1 and mat2 shapes cannot be multiplied" quando há imagem de referência.
+IP_ADAPTER_ENCODER_FOLDER = os.getenv(
+    "IP_ADAPTER_ENCODER_FOLDER",
+    "models/image_encoder"
+)
+
 DEFAULT_IP_ADAPTER_SCALE = float(
     os.getenv("IP_ADAPTER_SCALE", "0.60")
 )
@@ -56,6 +64,7 @@ txt2img_pipe.load_ip_adapter(
     IP_ADAPTER_REPO,
     subfolder=IP_ADAPTER_SUBFOLDER,
     weight_name=IP_ADAPTER_WEIGHT,
+    image_encoder_folder=IP_ADAPTER_ENCODER_FOLDER,
 )
 
 txt2img_pipe.set_ip_adapter_scale(DEFAULT_IP_ADAPTER_SCALE)
